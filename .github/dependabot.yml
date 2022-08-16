@@ -1,0 +1,21 @@
+version: 2
+registries:
+  prometheus-exporter-plugin-for-opensearch:
+    type: git
+    url: https://github.com/aiven/prometheus-exporter-plugin-for-opensearch
+updates:
+- package-ecosystem: docker
+  directory: "/"
+  schedule:
+    interval: daily
+  open-pull-requests-limit: 10
+- package-ecosystem: github-actions
+  directory: "/"
+  schedule:
+    interval: daily
+- package-ecosystem: "gitsubmodule"
+  directory: "/"
+  registries:
+    - prometheus-exporter-plugin-for-opensearch
+  schedule:
+    interval: "monthly"
