@@ -40,7 +40,7 @@ jobs:
         browser_download_url=$(echo $latest | jq -r '.assets[0].browser_download_url')
 
         echo ::set-output name=version::${version}
-        echo ::set-output name=pluginversion::${version}
+        echo ::set-output name=pluginversion::${pluginversion}
 
         if [[ "${version}XX" = ${majorversion}*XX ]];then
           #
