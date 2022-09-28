@@ -1,7 +1,7 @@
 name: Check prometheus-exporter-plugin-for-opensearch
 on:
   schedule:
-    - cron: "0,5,10,15,20,25,30,35,40,45,50,55 * * * *"
+    - cron: "0 * * * *"
   workflow_dispatch:
 
 jobs:
@@ -48,8 +48,8 @@ jobs:
       uses: peter-evans/create-pull-request@v4
       with:
         branch: "opensearch-exporter/bump-${{ steps.update.outputs.version }}"
-        title: "Bump prometheus-exporter-plugin-for-opensearch to ${{ steps.update.outputs.version }}"
-        commit-message: "Bump prometheus-exporter-plugin-for-opensearch to ${{ steps.update.outputs.version }}"
+        title: "Bump opensearch and prometheus-exporter-plugin-for-opensearch to ${{ steps.update.outputs.version }}"
+        commit-message: "Bump opensearch and prometheus-exporter-plugin-for-opensearch to ${{ steps.update.outputs.version }}"
         labels: |
           dependencies
         team-reviewers: |
