@@ -40,7 +40,7 @@ jobs:
           #
           sed -i -r \
             -e "s|^(\s*FROM [^/]+/opensearch)\s*:.*|\1:${version%.*}|" \
-            -e "s|^(ARG EXPORTER_PLUGIN_URL)\s*=.*|\1=${browser_download_url}|" \
+            -e "s|^(ARG EXPORTER_PLUGIN_URL)\s*=.*|\1=\"${browser_download_url}\"|" \
             Dockerfile
         fi
 
