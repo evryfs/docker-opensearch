@@ -1,0 +1,54 @@
+name: Check prometheus-exporter-plugin-for-opensearch
+on:
+  schedule:
+    - cron: "0 0 * * *"
+  workflow_dispatch:
+
+jobs:
+  check-for-updates:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Check for updates
+      id: update
+      run: |
+        #
+        # Lock to a major version
+        #
+        majorversion="1."
+        #
+        # Fetch the latest tag - filtered on majorversion
+        #
+        releases="https://api.github.com/repos/aiven/prometheus-exporter-plugin-for-opensearch/releases"
+        latest=$(curl --location --silent ${releases} | \
+          jq -r 'map(select(.tag_name|startswith("'${majorversion}'")))[0]')
+        #
+        # Extract version / tag_name
+        #
+        version=$(echo $latest | jq -r '.tag_name')
+        #
+        # Extract the download URL to use in the Dockerfile
+        #
+        browser_download_url=$(echo $latest | jq -r '.assets[0].browser_download_url')
+
+        echo ::set-output name=version::$version
+        if [[ "${version}XX" = ${majorversion}*XX ]];then
+          #
+          # Patch the Dockerfile
+          #
+          sed -i -r "s|^(ARG EXPORTER_PLUGIN_URL)\s*=.*|\1=${browser_download_url}|" Dockerfile
+        fi
+
+    - name: Create PR
+      uses: peter-evans/create-pull-request@v4
+      with:
+        branch: "opensearch-exporter/bump-${{ steps.update.outputs.version }}"
+        title: "Bump prometheus-exporter-plugin-for-opensearch to ${{ steps.update.outputs.version }}"
+        commit-message: "Bump prometheus-exporter-plugin-for-opensearch to ${{ steps.update.outputs.version }}"
+        labels: |
+          dependencies
+        team-reviewers: |
+          owners
+          maintainers
+        draft: False
