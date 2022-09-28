@@ -1,4 +1,4 @@
-# opensearch-docker
+# opensearch-docker 1.x
 Opensearch docker image with additional plugins such as the prometheus exporter.
 
 Main branch for the ***1.x*** version.
