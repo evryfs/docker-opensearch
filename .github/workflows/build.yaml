@@ -12,7 +12,7 @@ jobs:
       id-token: write
       contents: read
     env:
-      IMAGE: quay.io/evryfs/opensearch-docker
+      IMAGE: quay.io/testorg101/opensearch-docker101
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
@@ -38,7 +38,7 @@ jobs:
         registry: quay.io
         username: ${{ secrets.QUAY_USERNAME }}
         password: ${{ secrets.QUAY_PASSWORD }}
-    - name: Build and push
+    - name: Build and push 
       if: startsWith(github.ref, 'refs/tags/')
       id: build-push
       uses: docker/build-push-action@v3
