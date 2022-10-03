@@ -12,7 +12,7 @@ jobs:
       id-token: write
       contents: read
     env:
-      IMAGE: quay.io/evryfs/opensearch-docker
+      IMAGE: quay.io/testorg101/opensearch-docker101
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
@@ -47,9 +47,11 @@ jobs:
         push: ${{ github.event_name != 'pull_request' }}
         tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
+    - name: Install cosign
+      uses: sigstore/cosign-installer@v2.7.0
+      if: startsWith(github.ref, 'refs/tags/')
     - name: cosign
       if: ${{ github.event_name != 'pull_request' && startsWith(github.ref, 'refs/tags/')}}
-      uses: sigstore/cosign-installer@v2.7.0
       env:
         COSIGN_EXPERIMENTAL: 1
       #run: cosign sign --oidc-issuer ${env.ACTIONS_ID_TOKEN_REQUEST_URL} ${{ env.IMAGE }}
