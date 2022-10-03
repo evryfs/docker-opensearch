@@ -12,7 +12,7 @@ jobs:
       id-token: write
       contents: read
     env:
-      IMAGE: quay.io/testorg101/opensearch-docker101
+      IMAGE: quay.io/evryfs/opensearch-docker
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
