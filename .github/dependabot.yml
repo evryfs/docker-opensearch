@@ -4,11 +4,14 @@ updates:
   directory: "/"
   schedule:
     interval: daily
-    target-branch: main
+    time: "17:00"
+    timezone: "Europe/Oslo"
+  target-branch: main
 - package-ecosystem: github-actions
   directory: "/"
   schedule:
     interval: daily
-    time: "16:40"
+    time: "17:00"
     timezone: "Europe/Oslo"
-    target-branch: 1.x
+  target-branch: 1.x
+
