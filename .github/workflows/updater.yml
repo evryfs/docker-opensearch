@@ -1,14 +1,24 @@
-name: Check prometheus-exporter-plugin-for-opensearch-2.x
+name: Check prometheus-exporter-plugin-for-opensearch
 on:
   schedule:
-    - cron: "0 7 * * *"
+    - cron: "*/2 * * * *"
   workflow_dispatch:
 
 jobs:
   check-for-updates:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - branch: 'main'
+            majorversion: '2.'
+          - branch: '1.x'
+            majorversion: '1.'
     steps:
-    - uses: actions/checkout@v3
+    - name: Checkout branch
+      uses: actions/checkout@v3
+      with:
+        ref: ${{matrix.branch}}
 
     - name: Check for updates
       id: update
@@ -21,7 +31,7 @@ jobs:
         #
         # Lock to a major version
         #
-        majorversion="2."
+        majorversion=${{matrix.majorversion}}
         #
         # Fetch the latest tag - filtered on majorversion
         #
@@ -39,8 +49,9 @@ jobs:
         #
         browser_download_url=$(echo $latest | jq -r '.assets[0].browser_download_url')
 
-        echo ::set-output name=version::${version}
-        echo ::set-output name=pluginversion::${pluginversion}
+        echo version=${version} >> $GITHUB_OUTPUT
+        echo pluginversion=${pluginversion} >> $GITHUB_OUTPUT
+        echo branch=${{matrix.branch}} >> $GITHUB_OUTPUT
 
         if [[ "${version}XX" = ${majorversion}*XX ]];then
           #
@@ -56,6 +67,7 @@ jobs:
     - name: Create PR
       uses: peter-evans/create-pull-request@v4
       with:
+        base: ${{ steps.update.outputs.branch }}
         branch: "opensearch-exporter/bump-${{ steps.update.outputs.version }}"
         title: "Bump to opensearch-${{ steps.update.outputs.version }} with prometheus-exporter-plugin-for-opensearch-${{ steps.update.outputs.pluginversion }}"
         commit-message: "Bump to opensearch-${{ steps.update.outputs.version }} with prometheus-exporter-plugin-for-opensearch-${{ steps.update.outputs.pluginversion }}"
