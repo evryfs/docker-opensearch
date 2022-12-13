@@ -10,10 +10,10 @@ jobs:
     strategy:
       matrix:
         include:
-          - majorversion: '2.'
-            branch: 'main'
-          - majorversion: '1.'
-            branch: '1.x'
+          - branch: 'main'
+            majorversion: '2.'
+          - branch: '1.x'
+            majorversion: '1.'
     steps:
     - name: Checkout branch
       uses: actions/checkout@v3
