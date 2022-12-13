@@ -49,11 +49,9 @@ jobs:
         #
         browser_download_url=$(echo $latest | jq -r '.assets[0].browser_download_url')
 
-        #echo ::set-output name=version::${version}
         echo version=${version} >> $GITHUB_OUTPUT
         echo pluginversion=${pluginversion} >> $GITHUB_OUTPUT
-        #echo ::set-output name=pluginversion::${pluginversion}
-        echo ::set-output name=branch::${{matrix.branch}}
+        echo branch=${{matrix.branch}} >> $GITHUB_OUTPUT
 
         if [[ "${version}XX" = ${majorversion}*XX ]];then
           #
