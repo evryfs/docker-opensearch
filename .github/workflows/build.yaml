@@ -46,7 +46,7 @@ jobs:
         push: ${{ github.event_name != 'pull_request' }}
         tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
-    - uses: sigstore/cosign-installer@v3.0.3
+    - uses: sigstore/cosign-installer@v3.0.5
     - name: cosign
       if: ${{ github.event_name != 'pull_request' && startsWith(github.ref, 'refs/tags/')}}
       #run: cosign sign --oidc-issuer ${env.ACTIONS_ID_TOKEN_REQUEST_URL} ${{ env.IMAGE }}
