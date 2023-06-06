@@ -64,4 +64,5 @@ jobs:
         team-reviewers: |
           owners
           maintainers
+          devtools
         draft: False
