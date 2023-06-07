@@ -73,6 +73,7 @@ jobs:
         commit-message: "Bump to opensearch-${{ steps.update.outputs.version }} with prometheus-exporter-plugin-for-opensearch-${{ steps.update.outputs.pluginversion }}"
         labels: |
           dependencies
-        team-reviewers: |
-          devtools
+        reviewers: DShivakoti
+        #team-reviewers: |
+        #  devtools
         draft: False
