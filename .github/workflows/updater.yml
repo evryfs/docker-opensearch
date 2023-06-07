@@ -74,7 +74,5 @@ jobs:
         labels: |
           dependencies
         team-reviewers: |
-          owners
-          maintainers
           devtools
         draft: False
