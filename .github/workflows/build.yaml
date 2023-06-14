@@ -49,7 +49,5 @@ jobs:
     - uses: sigstore/cosign-installer@v3.0.5
     - name: cosign
       if: ${{ github.event_name != 'pull_request' && startsWith(github.ref, 'refs/tags/')}}
-      env:
-        COSIGN_EXPERIMENTAL: 1
       #run: cosign sign --oidc-issuer ${env.ACTIONS_ID_TOKEN_REQUEST_URL} ${{ env.IMAGE }}
-      run: cosign sign --oidc-issuer https://token.actions.githubusercontent.com ${{ env.IMAGE }}@${{ steps.build-push.outputs.digest }}
+      run: echo "${{ steps.meta.outputs.tags }}" | xargs -I {} cosign sign --yes {}@${{ steps.build-push.outputs.digest }}
