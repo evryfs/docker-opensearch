@@ -40,7 +40,7 @@ jobs:
     - name: Build and push
       if: startsWith(github.ref, 'refs/tags/')
       id: build-push
-      uses: docker/build-push-action@v5
+      uses: docker/build-push-action@v6
       with:
         context: .
         push: ${{ github.event_name != 'pull_request' }}
